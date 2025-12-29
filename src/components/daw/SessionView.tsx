@@ -198,18 +198,17 @@ export const SessionView = () => {
         <div className="h-[72px] border-b border-border" />
         <div className="flex-1 flex flex-col gap-1 p-1">
           {Array.from({ length: SCENE_COUNT }).map((_, index) => (
-            <div key={index} className="flex flex-col gap-0.5">
-              <button
-                onClick={() => handleSceneTrigger(index)}
-                className={`w-full aspect-[4/3] rounded-sm flex items-center justify-center transition-colors ${
-                  activeScene === index
-                    ? 'bg-accent text-accent-foreground'
-                    : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
-                }`}
-              >
-                <Play className="w-3 h-3" fill="currentColor" />
-              </button>
-            </div>
+            <button
+              key={index}
+              onClick={() => handleSceneTrigger(index)}
+              className={`w-full h-[52px] rounded-sm flex items-center justify-center transition-colors ${
+                activeScene === index
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+              }`}
+            >
+              <Play className="w-3 h-3" fill="currentColor" />
+            </button>
           ))}
         </div>
       </div>
