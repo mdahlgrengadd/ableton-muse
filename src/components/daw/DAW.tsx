@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { TransportBar } from "./TransportBar";
 import { SessionView } from "./SessionView";
+import { EffectsRack } from "./EffectsRack";
 import { Mixer } from "./Mixer";
 
 export const DAW = () => {
@@ -67,6 +68,7 @@ export const DAW = () => {
         onTempoChange={setTempo}
       />
       <SessionView />
+      <EffectsRack />
       <Mixer />
     </div>
   );
