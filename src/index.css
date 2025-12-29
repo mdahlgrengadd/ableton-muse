@@ -156,6 +156,48 @@
     @apply absolute bottom-0 left-0 right-0 transition-all duration-75;
     background: linear-gradient(to top, hsl(var(--accent)), hsl(45, 90%, 55%) 70%, hsl(0, 70%, 50%) 90%);
   }
+
+  /* Range slider thumb styling */
+  .daw-fader::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 8px;
+    background: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .daw-fader::-moz-range-thumb {
+    width: 20px;
+    height: 8px;
+    background: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .daw-pan::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 8px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .daw-pan::-moz-range-thumb {
+    width: 8px;
+    height: 8px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
 }
 
 @layer utilities {
