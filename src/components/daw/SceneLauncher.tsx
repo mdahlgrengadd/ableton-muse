@@ -17,12 +17,12 @@ export const SceneLauncher = ({
 }: SceneLauncherProps) => {
   return (
     <div className="flex flex-col min-w-[40px] w-[40px] border-r border-border">
-      {/* Header aligned with track headers */}
-      <div className="h-[72px] bg-daw-header border-b border-border flex items-center justify-center">
-        <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium vertical-text">Scene</span>
+      {/* Header - exact same structure as TrackHeader */}
+      <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center items-center">
+        <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium">▶</span>
       </div>
       
-      {/* Scene slots aligned with clip slots */}
+      {/* Scene slots - exact same padding/gap as Track clips container */}
       <div className="flex-1 flex flex-col gap-1 p-1 bg-daw-track">
         {Array.from({ length: sceneCount }).map((_, index) => {
           const isPlaying = playingScenes[index];
