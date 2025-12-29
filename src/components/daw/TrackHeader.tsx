@@ -23,8 +23,16 @@ export const TrackHeader = ({
 }: TrackHeaderProps) => {
   if (isSceneLauncher) {
     return (
-      <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center items-center">
-        <span className="text-[10px] text-muted-foreground font-medium">▶</span>
+      <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-3 h-3 rounded-sm bg-muted-foreground/30" />
+          <span className="text-xs font-medium text-muted-foreground truncate flex-1">
+            Scene
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="track-button bg-transparent" />
+        </div>
       </div>
     );
   }
