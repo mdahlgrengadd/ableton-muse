@@ -48,7 +48,7 @@ export const MixerChannel = ({
           max="100"
           value={pan}
           onChange={(e) => onPanChange(Number(e.target.value))}
-          className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+          className="daw-pan w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer"
         />
         <div className="text-[9px] text-muted-foreground text-center font-mono">
           {pan === 0 ? 'C' : pan > 0 ? `R${pan}` : `L${Math.abs(pan)}`}
@@ -66,17 +66,18 @@ export const MixerChannel = ({
         </div>
 
         {/* Fader */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 w-6 bg-muted rounded-sm overflow-hidden">
+          <div 
+            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-primary/40 pointer-events-none"
+            style={{ height: `${volume}%` }}
+          />
           <input
             type="range"
             min="0"
             max="100"
             value={volume}
             onChange={(e) => onVolumeChange(Number(e.target.value))}
-            className="absolute inset-0 w-full h-full appearance-none cursor-pointer bg-transparent [writing-mode:vertical-lr] [direction:rtl]"
-            style={{
-              background: `linear-gradient(to top, hsl(var(--primary)) ${volume}%, hsl(var(--muted)) ${volume}%)`,
-            }}
+            className="daw-fader absolute inset-0 w-full h-full appearance-none cursor-pointer bg-transparent [writing-mode:vertical-lr] [direction:rtl]"
           />
         </div>
       </div>
