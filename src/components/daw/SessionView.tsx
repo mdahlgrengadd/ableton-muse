@@ -200,17 +200,18 @@ export const SessionView = () => {
 
   return (
     <div className="flex-1 flex overflow-hidden">
-      {/* Scene launcher as a track */}
-      <SceneLauncher
-        sceneCount={SCENE_COUNT}
-        activeScene={activeScene}
-        playingScenes={playingScenes}
-        onSceneTrigger={handleSceneTrigger}
-        onSceneStop={handleSceneStop}
-      />
-
-      {/* Tracks */}
+      {/* All tracks in one scrollable container */}
       <div className="flex-1 flex overflow-x-auto no-scrollbar">
+        {/* Scene launcher as the first track */}
+        <SceneLauncher
+          sceneCount={SCENE_COUNT}
+          activeScene={activeScene}
+          playingScenes={playingScenes}
+          onSceneTrigger={handleSceneTrigger}
+          onSceneStop={handleSceneStop}
+        />
+
+        {/* Audio tracks */}
         {tracks.map((track) => (
           <Track
             key={track.id}
