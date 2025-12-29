@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Track } from "./Track";
-import { Play, Square } from "lucide-react";
+import { SceneLauncher } from "./SceneLauncher";
 
 interface Clip {
   id: string;
@@ -137,6 +137,11 @@ export const SessionView = () => {
   const [tracks, setTracks] = useState<TrackData[]>(createInitialTracks());
   const [activeScene, setActiveScene] = useState<number | null>(0);
 
+  // Calculate which scenes have any playing clips
+  const playingScenes = Array.from({ length: SCENE_COUNT }).map((_, sceneIndex) =>
+    tracks.some((track) => track.clips[sceneIndex]?.isPlaying)
+  );
+
   const handleClipTrigger = (trackId: string, clipIndex: number) => {
     setTracks((prevTracks) =>
       prevTracks.map((track) => {
@@ -159,6 +164,7 @@ export const SessionView = () => {
 
   const handleSceneTrigger = (sceneIndex: number) => {
     setActiveScene(sceneIndex);
+    // Trigger all clips in this scene row
     setTracks((prevTracks) =>
       prevTracks.map((track) => ({
         ...track,
@@ -174,6 +180,7 @@ export const SessionView = () => {
   };
 
   const handleSceneStop = (sceneIndex: number) => {
+    // Stop all clips in this scene row
     setTracks((prevTracks) =>
       prevTracks.map((track) => ({
         ...track,
@@ -193,25 +200,14 @@ export const SessionView = () => {
 
   return (
     <div className="flex-1 flex overflow-hidden">
-      {/* Scene launcher */}
-      <div className="w-10 bg-daw-header border-r border-border flex flex-col">
-        <div className="h-[72px] border-b border-border" />
-        <div className="flex-1 flex flex-col gap-1 p-1">
-          {Array.from({ length: SCENE_COUNT }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleSceneTrigger(index)}
-              className={`w-full h-[52px] rounded-sm flex items-center justify-center transition-colors ${
-                activeScene === index
-                  ? 'bg-accent text-accent-foreground'
-                  : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
-              }`}
-            >
-              <Play className="w-3 h-3" fill="currentColor" />
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Scene launcher as a track */}
+      <SceneLauncher
+        sceneCount={SCENE_COUNT}
+        activeScene={activeScene}
+        playingScenes={playingScenes}
+        onSceneTrigger={handleSceneTrigger}
+        onSceneStop={handleSceneStop}
+      />
 
       {/* Tracks */}
       <div className="flex-1 flex overflow-x-auto no-scrollbar">
