@@ -85,7 +85,7 @@
   }
 
   .clip-slot {
-    @apply relative w-full aspect-[4/3] rounded-sm transition-all duration-100 cursor-pointer;
+    @apply relative w-full h-[52px] rounded-sm transition-all duration-100 cursor-pointer;
   }
 
   .clip-slot:hover {
