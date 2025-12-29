@@ -20,7 +20,7 @@ export const TrackHeader = ({
   onArm,
 }: TrackHeaderProps) => {
   return (
-    <div className="w-full bg-daw-header border-b border-border p-2">
+    <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center">
       <div className="flex items-center gap-2 mb-2">
         <div
           className="w-3 h-3 rounded-sm"
