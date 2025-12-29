@@ -1,24 +1,34 @@
 interface TrackHeaderProps {
   name: string;
-  color: string;
-  isMuted: boolean;
-  isSolo: boolean;
-  isArmed: boolean;
-  onMute: () => void;
-  onSolo: () => void;
-  onArm: () => void;
+  color?: string;
+  isMuted?: boolean;
+  isSolo?: boolean;
+  isArmed?: boolean;
+  onMute?: () => void;
+  onSolo?: () => void;
+  onArm?: () => void;
+  isSceneLauncher?: boolean;
 }
 
 export const TrackHeader = ({
   name,
   color,
-  isMuted,
-  isSolo,
-  isArmed,
+  isMuted = false,
+  isSolo = false,
+  isArmed = false,
   onMute,
   onSolo,
   onArm,
+  isSceneLauncher = false,
 }: TrackHeaderProps) => {
+  if (isSceneLauncher) {
+    return (
+      <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center items-center">
+        <span className="text-[10px] text-muted-foreground font-medium">▶</span>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-[72px] bg-daw-header border-b border-border p-2 flex flex-col justify-center">
       <div className="flex items-center gap-2 mb-2">
