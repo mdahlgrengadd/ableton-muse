@@ -6,6 +6,7 @@ interface Clip {
   id: string;
   name: string;
   isPlaying: boolean;
+  type?: "sample" | "pattern";
 }
 
 interface TrackProps {
