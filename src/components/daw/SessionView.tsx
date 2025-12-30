@@ -12,6 +12,7 @@ interface Clip {
   id: string;
   name: string;
   isPlaying: boolean;
+  type?: "sample" | "pattern";
 }
 
 interface TrackData {
@@ -48,10 +49,10 @@ const createInitialTracks = (): TrackData[] => [
     name: "Drums",
     color: TRACK_COLORS[0],
     clips: [
-      { id: "1-1", name: "Beat 1", isPlaying: true },
-      { id: "1-2", name: "Beat 2", isPlaying: false },
+      { id: "1-1", name: "Beat 1", isPlaying: true, type: "pattern" },
+      { id: "1-2", name: "Beat 2", isPlaying: false, type: "pattern" },
       null,
-      { id: "1-4", name: "Fill", isPlaying: false },
+      { id: "1-4", name: "Fill", isPlaying: false, type: "pattern" },
       null,
       null,
       null,
@@ -65,9 +66,9 @@ const createInitialTracks = (): TrackData[] => [
     name: "Bass",
     color: TRACK_COLORS[1],
     clips: [
-      { id: "2-1", name: "Bass 1", isPlaying: true },
+      { id: "2-1", name: "Bass 1", isPlaying: true, type: "pattern" },
       null,
-      { id: "2-3", name: "Sub", isPlaying: false },
+      { id: "2-3", name: "Sub", isPlaying: false, type: "sample" },
       null,
       null,
       null,
