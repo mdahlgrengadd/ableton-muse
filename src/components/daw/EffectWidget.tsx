@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Power, MoreHorizontal } from "lucide-react";
+import { AudioKnob } from "./AudioKnob";
 
 interface EffectWidgetProps {
   name: string;
@@ -15,6 +17,9 @@ export const EffectWidget = ({
   isEnabled,
   onToggle,
 }: EffectWidgetProps) => {
+  const [mixValue, setMixValue] = useState(100);
+  const [amtValue, setAmtValue] = useState(50);
+
   return (
     <div
       className={`flex-shrink-0 w-32 h-full bg-daw-track border-r border-border flex flex-col transition-opacity ${
@@ -48,26 +53,26 @@ export const EffectWidget = ({
 
       {/* Controls area */}
       <div className="flex-1 p-2 flex flex-col gap-2">
-        {/* Simulated knobs/sliders */}
-        <div className="flex gap-2">
-          <div className="flex-1 flex flex-col items-center">
-            <div className="w-6 h-6 rounded-full bg-muted border border-border flex items-center justify-center">
-              <div className="w-1 h-2 bg-primary rounded-full transform -translate-y-0.5" />
-            </div>
-            <span className="text-[8px] text-muted-foreground mt-1">Mix</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center">
-            <div className="w-6 h-6 rounded-full bg-muted border border-border flex items-center justify-center">
-              <div className="w-1 h-2 bg-primary rounded-full transform -translate-y-0.5 rotate-45" />
-            </div>
-            <span className="text-[8px] text-muted-foreground mt-1">Amt</span>
-          </div>
+        {/* Functional audio knobs */}
+        <div className="flex gap-3 justify-center">
+          <AudioKnob
+            value={mixValue}
+            onChange={setMixValue}
+            label="Mix"
+            size={28}
+          />
+          <AudioKnob
+            value={amtValue}
+            onChange={setAmtValue}
+            label="Amt"
+            size={28}
+          />
         </div>
 
         {/* Parameter display */}
         <div className="mt-auto bg-background/50 rounded px-1 py-0.5">
           <div className="text-[9px] text-muted-foreground font-mono text-center">
-            100%
+            {Math.round(mixValue)}%
           </div>
         </div>
       </div>
