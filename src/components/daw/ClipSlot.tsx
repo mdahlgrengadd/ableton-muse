@@ -3,22 +3,34 @@ import { Play, Square } from "lucide-react";
 interface ClipSlotProps {
   hasClip: boolean;
   isPlaying: boolean;
+  isSelected?: boolean;
   clipName?: string;
   color?: string;
   onTrigger: () => void;
+  onSelect?: () => void;
 }
 
-export const ClipSlot = ({ hasClip, isPlaying, clipName, color, onTrigger }: ClipSlotProps) => {
+export const ClipSlot = ({ hasClip, isPlaying, isSelected, clipName, color, onTrigger, onSelect }: ClipSlotProps) => {
+  const handleClick = (e: React.MouseEvent) => {
+    if (e.detail === 2) {
+      // Double-click triggers playback
+      onTrigger();
+    } else {
+      // Single click selects
+      onSelect?.();
+    }
+  };
+
   return (
     <button
-      onClick={onTrigger}
+      onClick={handleClick}
       className={`clip-slot group ${
         hasClip
           ? isPlaying
             ? 'clip-slot-playing'
             : 'clip-slot-active'
           : 'clip-slot-empty'
-      }`}
+      } ${isSelected ? 'ring-2 ring-primary ring-inset' : ''}`}
       style={hasClip && color ? { backgroundColor: color } : undefined}
     >
       {hasClip && (

@@ -12,10 +12,12 @@ interface TrackProps {
   name: string;
   color: string;
   clips: (Clip | null)[];
+  selectedClipIndex?: number;
   onClipTrigger: (clipIndex: number) => void;
+  onClipSelect?: (clipIndex: number) => void;
 }
 
-export const Track = ({ name, color, clips, onClipTrigger }: TrackProps) => {
+export const Track = ({ name, color, clips, selectedClipIndex, onClipTrigger, onClipSelect }: TrackProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [isSolo, setIsSolo] = useState(false);
   const [isArmed, setIsArmed] = useState(false);
@@ -38,9 +40,11 @@ export const Track = ({ name, color, clips, onClipTrigger }: TrackProps) => {
             key={index}
             hasClip={clip !== null}
             isPlaying={clip?.isPlaying || false}
+            isSelected={selectedClipIndex === index}
             clipName={clip?.name}
             color={color}
             onTrigger={() => onClipTrigger(index)}
+            onSelect={() => clip && onClipSelect?.(index)}
           />
         ))}
       </div>
