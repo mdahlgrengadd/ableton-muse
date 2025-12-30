@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Track } from "./Track";
 import { SceneLauncher } from "./SceneLauncher";
+import { ClipDetailView } from "./ClipDetailView";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@/components/ui/resizable";
 
 interface Clip {
   id: string;
@@ -15,6 +21,14 @@ interface TrackData {
   clips: (Clip | null)[];
   volume: number;
   pan: number;
+}
+
+interface SelectedClipInfo {
+  clip: Clip;
+  trackId: string;
+  trackName: string;
+  trackColor: string;
+  clipIndex: number;
 }
 
 const TRACK_COLORS = [
@@ -136,6 +150,7 @@ const createInitialTracks = (): TrackData[] => [
 export const SessionView = () => {
   const [tracks, setTracks] = useState<TrackData[]>(createInitialTracks());
   const [activeScene, setActiveScene] = useState<number | null>(0);
+  const [selectedClip, setSelectedClip] = useState<SelectedClipInfo | null>(null);
 
   // Calculate which scenes have any playing clips
   const playingScenes = Array.from({ length: SCENE_COUNT }).map((_, sceneIndex) =>
@@ -162,9 +177,22 @@ export const SessionView = () => {
     );
   };
 
+  const handleClipSelect = (trackId: string, clipIndex: number) => {
+    const track = tracks.find((t) => t.id === trackId);
+    const clip = track?.clips[clipIndex];
+    if (track && clip) {
+      setSelectedClip({
+        clip,
+        trackId,
+        trackName: track.name,
+        trackColor: track.color,
+        clipIndex,
+      });
+    }
+  };
+
   const handleSceneTrigger = (sceneIndex: number) => {
     setActiveScene(sceneIndex);
-    // Trigger all clips in this scene row
     setTracks((prevTracks) =>
       prevTracks.map((track) => ({
         ...track,
@@ -180,7 +208,6 @@ export const SessionView = () => {
   };
 
   const handleSceneStop = (sceneIndex: number) => {
-    // Stop all clips in this scene row
     setTracks((prevTracks) =>
       prevTracks.map((track) => ({
         ...track,
@@ -200,35 +227,51 @@ export const SessionView = () => {
 
   return (
     <div className="flex-1 flex overflow-hidden">
-      {/* All tracks in one scrollable container */}
-      <div className="flex-1 flex overflow-x-auto no-scrollbar">
-        {/* Scene launcher as the first track */}
-        <SceneLauncher
-          sceneCount={SCENE_COUNT}
-          activeScene={activeScene}
-          playingScenes={playingScenes}
-          onSceneTrigger={handleSceneTrigger}
-          onSceneStop={handleSceneStop}
-        />
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel defaultSize={selectedClip ? 70 : 100} minSize={40}>
+          <div className="h-full flex overflow-x-auto no-scrollbar">
+            <SceneLauncher
+              sceneCount={SCENE_COUNT}
+              activeScene={activeScene}
+              playingScenes={playingScenes}
+              onSceneTrigger={handleSceneTrigger}
+              onSceneStop={handleSceneStop}
+            />
 
-        {/* Audio tracks */}
-        {tracks.map((track) => (
-          <Track
-            key={track.id}
-            name={track.name}
-            color={track.color}
-            clips={track.clips}
-            onClipTrigger={(clipIndex) => handleClipTrigger(track.id, clipIndex)}
-          />
-        ))}
-        
-        {/* Add track button */}
-        <div className="min-w-[100px] w-[100px] border-r border-border flex items-center justify-center bg-daw-track">
-          <button className="w-8 h-8 rounded-sm bg-secondary hover:bg-secondary/80 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
-            <span className="text-xl">+</span>
-          </button>
-        </div>
-      </div>
+            {tracks.map((track) => (
+              <Track
+                key={track.id}
+                name={track.name}
+                color={track.color}
+                clips={track.clips}
+                selectedClipIndex={selectedClip?.trackId === track.id ? selectedClip.clipIndex : undefined}
+                onClipTrigger={(clipIndex) => handleClipTrigger(track.id, clipIndex)}
+                onClipSelect={(clipIndex) => handleClipSelect(track.id, clipIndex)}
+              />
+            ))}
+
+            <div className="min-w-[100px] w-[100px] border-r border-border flex items-center justify-center bg-daw-track">
+              <button className="w-8 h-8 rounded-sm bg-secondary hover:bg-secondary/80 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+                <span className="text-xl">+</span>
+              </button>
+            </div>
+          </div>
+        </ResizablePanel>
+
+        {selectedClip && (
+          <>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
+              <ClipDetailView
+                clip={selectedClip.clip}
+                trackName={selectedClip.trackName}
+                trackColor={selectedClip.trackColor}
+                onClose={() => setSelectedClip(null)}
+              />
+            </ResizablePanel>
+          </>
+        )}
+      </ResizablePanelGroup>
     </div>
   );
 };
